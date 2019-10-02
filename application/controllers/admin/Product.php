@@ -32,12 +32,12 @@ class Product extends MY_Controller {
 		
 		if($this->input->post()){
 			$path = './public/image/product';
-
+			$path_thum = './public/image/product/thump'
 			$image = $this->upload_library->upload($path, 'image');
 			if($image == false){
 				$input['image'] = 'noImage.jpg';
 			}else{
-				$input['image'] = $image->file_name;
+				$input['image'] = $this->upload_library->upload($path_thum, $path . $image->file_name);
 			}
 			
 			$imageList = $this->upload_library->upload_file($path, 'imageList');
