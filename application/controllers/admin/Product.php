@@ -32,12 +32,12 @@ class Product extends MY_Controller {
 		
 		if($this->input->post()){
 			$path = './public/image/product';
-			$path_thum = './public/image/product/thump'
+			$path_thum = './public/image/product/thump';
 			$image = $this->upload_library->upload($path, 'image');
 			if($image == false){
 				$input['image'] = 'noImage.jpg';
 			}else{
-				$input['image'] = $this->upload_library->upload($path_thum, $path . $image->file_name);
+				$input['image'] = $this->upload_library->upload($path_thum, $path . $image['file_name']);
 			}
 			
 			$imageList = $this->upload_library->upload_file($path, 'imageList');
@@ -60,6 +60,7 @@ class Product extends MY_Controller {
                 redirect(admin_url('product'));
 			}
 		}
+
 		$array['where'] = array('parent_id' => 0);
 		$catalogs = $this->Catalog_model->get_list($array);
 		foreach ($catalogs as $key => $catalog) {
@@ -82,11 +83,15 @@ class Product extends MY_Controller {
 			exit();
 		}
 		if($this->input->post()){
-			$path = './public/image/product';
+			$path = './public/image/product/';
+			$path_2 = './public/image/product/';
+			$path_thum = './public/image/product/thump/';
 
-			$image = $this->upload_library->upload($path, 'image');
+			$image = $this->upload_library->upload($path_2, 'image');
+			
 			if($image != false){
-				$input['image'] = $image->file_name;
+				$input['image'] = $image['file_name'];
+				$this->upload_library->resize($path_thum, $path . $image['file_name']);
 			}
 			
 			$imageList = $this->upload_library->upload_file($path, 'imageList');
@@ -101,7 +106,7 @@ class Product extends MY_Controller {
 			$input['content'] = $this->input->post('content');
 			$input['producer_id'] = $this->input->post('producer_id');
 			$input['catalog_id'] = $this->input->post('catalog_id');
-
+			// pre($input);
 			if($this->Product_model->update($id,$input)){
 				$this->session->set_flashdata('message', 'Update thành công!');
                 redirect(admin_url('product'));

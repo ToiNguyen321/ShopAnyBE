@@ -61,25 +61,26 @@
 	    {
 	    	$source_path = $path_file;
 	      $target_path = $upload_path;
+
 	      $config_manip = array(
-	          'image_library' => 'gd2',
+	          'image_library' => "gd2",
 	          'source_image' => $source_path,
 	          'new_image' => $target_path,
 	          'maintain_ratio' => TRUE,
 	          'create_thumb' => TRUE,
-	          'thumb_marker' => '_thumb',
+	          'master_dim' => 'width',
 	          'width' => 450,
 	          'height' => 250
 	      );
-
-	      $this->load->library('image_lib', $config_manip);
-	      if (!$this->image_lib->resize()) {
+	      // pre($config_manip, false);
+	      $this->CI->load->library('image_lib', $config_manip);
+	      if (!$this->CI->image_lib->resize()) {
 	      	//Xóa config
-	      	$this->image_lib->clear();
+	      	$this->CI->image_lib->clear();
 	      	return false;
 	      }else{
 	      	//Xóa config
-	      	$this->image_lib->clear();
+	      	$this->CI->image_lib->clear();
 	      	return true;
 	      }
 

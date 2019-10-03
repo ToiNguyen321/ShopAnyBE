@@ -77,9 +77,14 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<!-- <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Ảnh đại diện <span class="required">*</span>
+						<div class="col-md-9 col-sm-9 col-xs-12">
+							<img style="width: 50px; height: 50px; resize: cover" src="<?php //echo public_url('image/product/') . $product->image; ?>" alt="">
+						</div> -->
 						<label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Ảnh đại diện <span class="required">*</span>
 						</label>
 						<div class="col-md-9 col-sm-9 col-xs-12">
+							<img style="width: 50px; height: 50px; margin-right: 10px; margin-bottom: 10px; resize: cover" src="<?php echo public_url('image/product/') . $product->image; ?>" alt="">
 							<input type="file" name="image" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
@@ -87,6 +92,9 @@
 						<label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">List Ảnh <span class="required">*</span>
 						</label>
 						<div class="col-md-9 col-sm-9 col-xs-12">
+							<?php foreach (json_decode($product->imageList) as $value): ?>
+								<img style="width: 50px; height: 50px; margin-right: 10px; margin-bottom: 10px; resize: cover" src="<?php echo public_url('image/product/') . $value; ?>" alt="">
+							<?php endforeach ?>
 							<input type="file" name="imageList[]" id="first-name" multiple="" required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
