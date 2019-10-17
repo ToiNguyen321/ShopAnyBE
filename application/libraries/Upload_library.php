@@ -14,9 +14,9 @@
 	    }
 	    function upload($upload_path = '', $input_name = ''){
 	    	$config = $this->config($upload_path);
-			$this->CI->load->library('upload', $config);
-			$data = array();
-			echo $input_name;
+	    	$this->CI->load->library('upload', $config);
+	    	$data = array();
+	    	echo $input_name;
 	    	if ( ! $this->CI->upload->do_upload($input_name)){
 	    		// $data = $this->CI->upload->display_errors();
 	    		return false;
@@ -38,9 +38,9 @@
 	    		$_FILES['userfile']['tmp_name'] = $file['tmp_name'][$i];
 	    		$_FILES['userfile']['error'] = $file['error'][$i];
 	    		$_FILES['userfile']['size'] = $file['size'][$i];
-				$this->CI->load->library('upload', $config);
+	    		$this->CI->load->library('upload', $config);
 	    		if ($this->CI->upload->do_upload()){
-	    		
+
 	    			$data = $this->CI->upload->data();
 	    			$image_list[] = $data['file_name'];
 	    		}
@@ -60,31 +60,28 @@
 	    function resize($upload_path = '', $path_file = '' )
 	    {
 	    	$source_path = $path_file;
-	      $target_path = $upload_path;
+	    	$target_path = $upload_path;
 
-	      $config_manip = array(
-	          'image_library' => "gd2",
-	          'source_image' => $source_path,
-	          'new_image' => $target_path,
-	          'maintain_ratio' => TRUE,
-	          'create_thumb' => TRUE,
-	          'master_dim' => 'width',
-	          'width' => 450,
-	          'height' => 250
-	      );
-	      // pre($config_manip, false);
-	      $this->CI->load->library('image_lib', $config_manip);
-	      if (!$this->CI->image_lib->resize()) {
-	      	//Xóa config
-	      	$this->CI->image_lib->clear();
-	      	return false;
-	      }else{
-	      	//Xóa config
-	      	$this->CI->image_lib->clear();
-	      	return true;
-	      }
-
-	      
+	    	$config_manip = array(
+	    		'image_library' => "gd2",
+	    		'source_image' => $source_path,
+	    		'new_image' => $target_path,
+	    		'maintain_ratio' => TRUE,
+	    		'create_thumb' => TRUE,
+	    		'master_dim' => 'width',
+	    		'width' => 200,
+	    		'height' => 250
+	    	);
+		      // pre($config_manip, false);
+	    	$this->CI->load->library('image_lib', $config_manip);
+	    	if (!$this->CI->image_lib->resize()) {
+		      	//Xóa config
+	    		$this->CI->image_lib->clear();
+	    		return false;
+	    	}else{
+		      	//Xóa config
+	    		$this->CI->image_lib->clear();
+	    		return true;
+	    	}
 	    }
 	}
- ?>
