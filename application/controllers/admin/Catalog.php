@@ -6,7 +6,7 @@ class Catalog extends MY_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Catalog_model');
-
+		$this->load->model('Product_model');
 	}
 
 	public function index()
@@ -62,6 +62,9 @@ class Catalog extends MY_Controller {
 		if(!$id){
 			redirect(admin_url('catalog'));
 			exit();
+		}else if($id == 0){
+			$this->session->set_flashdata('message', 'Không được sửa mục này!');
+            redirect(admin_url('catalog'));
 		}
 		if($this->input->post()){
 			$name = $this->input->post('name');
@@ -96,13 +99,22 @@ class Catalog extends MY_Controller {
 		if(!$id){
 			redirect(admin_url('catalog'));
 			exit();
+		}else if($id == 0){
+			$this->session->set_flashdata('message', 'Không được xóa mục này!');
+            redirect(admin_url('catalog'));
 		}else{
-			if($this->Catalog_model->delete($id)){
-				$this->session->set_flashdata('message', 'Xóa thành công! ID: ' . $id);
-                redirect(admin_url('catalog'));
+			$where_product = array('where' => array('catalog_id' => $id));
+			if($this->Product_model->get_total($where_product) > 0){
+				$this->session->set_flashdata('message', 'Xóa thất bại, Vui lòng xóa hết sản phẩm thuộc danh mục trước! ID: ' . $id);
+	            redirect(admin_url('catalog'));
 			}else{
-				$this->session->set_flashdata('message', 'Xóa thất bại! ID: ' . $id);
-                redirect(admin_url('catalog'));
+				if($this->Catalog_model->delete($id)){
+					$this->session->set_flashdata('message', 'Xóa thành công! ID: ' . $id);
+	                redirect(admin_url('catalog'));
+				}else{
+					$this->session->set_flashdata('message', 'Xóa thất bại! ID: ' . $id);
+	                redirect(admin_url('catalog'));
+				}
 			}
 		}
 	}

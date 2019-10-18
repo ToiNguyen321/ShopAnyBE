@@ -35,7 +35,6 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Chọn danh mục cha</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select class="form-control" name="parent_id">
-                            <option value="0">Là danh mục cha</option>
                             <?php foreach ($catalog_0 as $value): ?>
                             	<option value="<?php echo $value->id ?>"><?php echo $value->name ?></option>
                             <?php endforeach ?>

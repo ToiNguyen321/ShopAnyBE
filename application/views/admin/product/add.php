@@ -42,8 +42,10 @@
 						<label class="control-label col-md-2 col-sm-2 col-xs-12">Chọn danh mục</label>
 						<div class="col-md-3 col-sm-3 col-xs-12">
 							<select class="select2_group form-control" name="catalog_id">
-								<option value="0">Không xác định</option>
 								<?php foreach ($catalogs as $catalog): ?>
+									<option value="<?php echo $catalog->id ?>"><?php echo $catalog->name ?></option>
+								<?php endforeach ?>
+								<!-- <?php foreach ($catalogs as $catalog): ?>
 									<optgroup label="<?php echo $catalog->name ?>">
 										<?php foreach ($catalog->catalog_list as $val): ?>
 
@@ -52,12 +54,14 @@
 										<?php endforeach ?>
 										
 									</optgroup>
-								<?php endforeach ?>
+								<?php endforeach ?> -->
+
 							</select>
 						</div>
 						<label class="control-label col-md-3 col-sm-3 col-xs-12">Chọn hãng sản xuất</label>
 						<div class="col-md-3 col-sm-3 col-xs-12">
 							<select class="select2_group form-control" name="producer_id">
+								<option value="0">Không xác định</option>
 								<?php foreach ($producers as $producer): ?>
 									<option value="<?php echo $producer->id ?>"><?php echo $producer->name ?></option>
 								<?php endforeach ?>

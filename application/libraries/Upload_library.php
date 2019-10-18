@@ -12,7 +12,7 @@
 	    {
 	    	$this->CI = & get_instance();
 	    }
-	    function upload($upload_path = '', $input_name = ''){
+	    function upload($upload_thump = '', $upload_path = '', $input_name = ''){
 	    	$config = $this->config($upload_path);
 	    	$this->CI->load->library('upload', $config);
 	    	$data = array();
@@ -23,11 +23,12 @@
 	    	}
 	    	else{
 	    		$data = $this->CI->upload->data();
+	    		$this->resize($upload_thump, $upload_path, $data['file_name']);
 	    	}
 	    	
 	    	return $data;
 	    }
-	    function upload_file($upload_path = '', $input_name = ''){
+	    function upload_file($upload_thump = '', $upload_path = '', $input_name = ''){
 	    	$config = $this->config($upload_path);
 	    	$image_list = array();
 	    	$file = $_FILES[$input_name];
@@ -40,10 +41,11 @@
 	    		$_FILES['userfile']['size'] = $file['size'][$i];
 	    		$this->CI->load->library('upload', $config);
 	    		if ($this->CI->upload->do_upload()){
-
 	    			$data = $this->CI->upload->data();
 	    			$image_list[] = $data['file_name'];
+	    			$this->resize($upload_thump, $upload_path, $data['file_name']);
 	    		}
+	    		sleep(2);
 	    	}
 	    	return $image_list;
 	    }
@@ -56,18 +58,25 @@
 	    	
 	    	return $config;
 	    }
-
-	    function resize($upload_path = '', $path_file = '' )
+	  //   function resize_array($path_thum = '', $path_file = '', $array_file_name = array() ){
+	  //   	$data = [];
+	  //   	for ($i = 0; $i < count($array_file_name); $i++){
+			// 	$data[] = $this->resize($path_thum, $path_file, $array_file_name[$i]);
+			// }
+			// pre($data);
+			// return true;
+	  //   }
+	    function resize($path_thump = '', $path_file = '', $file_name = '' )
 	    {
 	    	$source_path = $path_file;
-	    	$target_path = $upload_path;
+	    	$target_path = $path_thump;
 
 	    	$config_manip = array(
 	    		'image_library' => "gd2",
-	    		'source_image' => $source_path,
-	    		'new_image' => $target_path,
+	    		'source_image' => $source_path  . $file_name,
+	    		'new_image' => $target_path . "thump_" . $file_name,
 	    		'maintain_ratio' => TRUE,
-	    		'create_thumb' => TRUE,
+	    		'create_thumb' => false,
 	    		'master_dim' => 'width',
 	    		'width' => 200,
 	    		'height' => 250
@@ -77,11 +86,11 @@
 	    	if (!$this->CI->image_lib->resize()) {
 		      	//Xóa config
 	    		$this->CI->image_lib->clear();
-	    		return false;
+	    		// return false;
 	    	}else{
 		      	//Xóa config
 	    		$this->CI->image_lib->clear();
-	    		return true;
+	    		// return true;
 	    	}
 	    }
 	}

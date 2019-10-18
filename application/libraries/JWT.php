@@ -1,9 +1,11 @@
-<?php 
-/** namespace Firebase\JWT;
-use \DomainException;
-use \InvalidArgumentException;
-use \UnexpectedValueException;
-use \DateTime;**/
+<?php
+
+//namespace Firebase\JWT;
+//use \DomainException;
+//use \InvalidArgumentException;
+//use \UnexpectedValueException;
+//use \DateTime;
+
 /**
  * JSON Web Token implementation, based on this spec:
  * https://tools.ietf.org/html/rfc7519
@@ -12,19 +14,21 @@ use \DateTime;**/
  *
  * @category Authentication
  * @package  Authentication_JWT
- * @author   Neuman Vong 
- * @author   Anant Narayanan 
+ * @author   Neuman Vong <neuman@twilio.com>
+ * @author   Anant Narayanan <anant@php.net>
  * @license  http://opensource.org/licenses/BSD-3-Clause 3-clause BSD
  * @link     https://github.com/firebase/php-jwt
  */
 class JWT
 {
+
     /**
      * When checking nbf, iat or expiration times,
      * we want to provide some extra leeway time to
      * account for clock skew.
      */
     public static $leeway = 0;
+
     /**
      * Allow the current timestamp to be specified.
      * Useful for fixing a value within unit testing.
@@ -32,6 +36,7 @@ class JWT
      * Will default to PHP time() value if null.
      */
     public static $timestamp = null;
+
     public static $supported_algs = array(
         'HS256' => array('hash_hmac', 'SHA256'),
         'HS512' => array('hash_hmac', 'SHA512'),
@@ -40,6 +45,7 @@ class JWT
         'RS384' => array('openssl', 'SHA384'),
         'RS512' => array('openssl', 'SHA512'),
     );
+
     /**
      * Decodes a JWT string into a PHP object.
      *
@@ -63,6 +69,7 @@ class JWT
     public static function decode($jwt, $key, array $allowed_algs = array())
     {
         $timestamp = is_null(static::$timestamp) ? time() : static::$timestamp;
+
         if (empty($key)) {
             throw new InvalidArgumentException('Key may not be empty');
         }
@@ -99,31 +106,41 @@ class JWT
                 throw new UnexpectedValueException('"kid" empty, unable to lookup correct key');
             }
         }
+
         // Check the signature
         if (!static::verify("$headb64.$bodyb64", $sig, $key, $header->alg)) {
-            throw new SignatureInvalidException('Signature verification failed');
+//            throw new SignatureInvalidException('Signature verification failed');
+            throw new UnexpectedValueException('Signature verification failed');
         }
+
         // Check if the nbf if it is defined. This is the time that the
         // token can actually be used. If it's not yet that time, abort.
         if (isset($payload->nbf) && $payload->nbf > ($timestamp + static::$leeway)) {
-            throw new BeforeValidException(
-                'Cannot handle token prior to ' . date(DateTime::ISO8601, $payload->nbf)
-            );
+            throw new UnexpectedValueException('Cannot handle token prior to ' . date(DateTime::ISO8601, $payload->nbf));
+//            throw new BeforeValidException(
+//                'Cannot handle token prior to ' . date(DateTime::ISO8601, $payload->nbf)
+//            );
         }
+
         // Check that this token has been created before 'now'. This prevents
         // using tokens that have been created for later use (and haven't
         // correctly used the nbf claim).
         if (isset($payload->iat) && $payload->iat > ($timestamp + static::$leeway)) {
-            throw new BeforeValidException(
-                'Cannot handle token prior to ' . date(DateTime::ISO8601, $payload->iat)
-            );
+            throw new UnexpectedValueException('Cannot handle token prior to ' . date(DateTime::ISO8601, $payload->iat));
+//            throw new BeforeValidException(
+//                'Cannot handle token prior to ' . date(DateTime::ISO8601, $payload->iat)
+//            );
         }
+
         // Check if this token has expired.
         if (isset($payload->exp) && ($timestamp - static::$leeway) >= $payload->exp) {
-            throw new ExpiredException('Expired token');
+            throw new UnexpectedValueException('Expired token');
+//            throw new ExpiredException('Expired token');
         }
+
         return $payload;
     }
+
     /**
      * Converts and signs a PHP object or array into a JWT string.
      *
@@ -153,10 +170,13 @@ class JWT
         $segments[] = static::urlsafeB64Encode(static::jsonEncode($header));
         $segments[] = static::urlsafeB64Encode(static::jsonEncode($payload));
         $signing_input = implode('.', $segments);
+
         $signature = static::sign($signing_input, $key, $alg);
         $segments[] = static::urlsafeB64Encode($signature);
+
         return implode('.', $segments);
     }
+
     /**
      * Sign a string with a given key and algorithm.
      *
@@ -188,6 +208,7 @@ class JWT
                 }
         }
     }
+
     /**
      * Verify a signature with the message, key and method. Not all methods
      * are symmetric, so we must have a separate verify and sign method.
@@ -206,6 +227,7 @@ class JWT
         if (empty(static::$supported_algs[$alg])) {
             throw new DomainException('Algorithm not supported');
         }
+
         list($function, $algorithm) = static::$supported_algs[$alg];
         switch($function) {
             case 'openssl':
@@ -226,14 +248,17 @@ class JWT
                     return hash_equals($signature, $hash);
                 }
                 $len = min(static::safeStrlen($signature), static::safeStrlen($hash));
+
                 $status = 0;
                 for ($i = 0; $i < $len; $i++) {
                     $status |= (ord($signature[$i]) ^ ord($hash[$i]));
                 }
                 $status |= (static::safeStrlen($signature) ^ static::safeStrlen($hash));
+
                 return ($status === 0);
         }
     }
+
     /**
      * Decode a JSON string into a PHP object.
      *
@@ -260,6 +285,7 @@ class JWT
             $json_without_bigints = preg_replace('/:\s*(-?\d{'.$max_int_length.',})/', ': "$1"', $input);
             $obj = json_decode($json_without_bigints);
         }
+
         if (function_exists('json_last_error') && $errno = json_last_error()) {
             static::handleJsonError($errno);
         } elseif ($obj === null && $input !== 'null') {
@@ -267,6 +293,7 @@ class JWT
         }
         return $obj;
     }
+
     /**
      * Encode a PHP object into a JSON string.
      *
@@ -286,6 +313,7 @@ class JWT
         }
         return $json;
     }
+
     /**
      * Decode a string with URL-safe Base64.
      *
@@ -302,6 +330,7 @@ class JWT
         }
         return base64_decode(strtr($input, '-_', '+/'));
     }
+
     /**
      * Encode a string with URL-safe Base64.
      *
@@ -313,6 +342,7 @@ class JWT
     {
         return str_replace('=', '', strtr(base64_encode($input), '+/', '-_'));
     }
+
     /**
      * Helper method to create a JSON error.
      *
@@ -335,6 +365,7 @@ class JWT
             : 'Unknown JSON error: ' . $errno
         );
     }
+
     /**
      * Get the number of bytes in cryptographic strings.
      *

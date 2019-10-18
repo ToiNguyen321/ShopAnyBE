@@ -2,7 +2,7 @@
 
 class Product_model extends MY_Model {
 
-	public $table = 'product as a';
+	public $table = 'product';
 
 	public function __construct()
 	{

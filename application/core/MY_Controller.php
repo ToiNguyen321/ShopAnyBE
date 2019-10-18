@@ -1,7 +1,7 @@
 <?php
-
 Class MY_Controller extends CI_Controller
 {
+    private $user_credential;
     public $data = array();
 
     function __construct()

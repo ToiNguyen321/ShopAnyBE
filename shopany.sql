@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 03, 2019 lúc 12:22 PM
+-- Thời gian đã tạo: Th10 18, 2019 lúc 12:36 PM
 -- Phiên bản máy phục vụ: 10.1.38-MariaDB
 -- Phiên bản PHP: 5.6.40
 
@@ -42,8 +42,9 @@ CREATE TABLE `catalog` (
 --
 
 INSERT INTO `catalog` (`id`, `name`, `slug`, `parent_id`, `sort_order`, `create_time`) VALUES
-(3, 'Máy uống tóc2', 'may-uong-toc2', 0, 1, '2019-10-01 15:30:39'),
-(4, 'Máy uống tóc', 'may-uong-toc', 3, 3, '2019-10-02 14:55:02');
+(0, 'Không xác định', 'khong-xac-dinh', 0, 0, '2019-10-18 15:05:44'),
+(5, 'Máy uốn tóc', 'may-uon-toc', 0, 1, '2019-10-18 15:05:44'),
+(6, 'Máy làm tóc', 'may-lam-toc', 0, 1, '2019-10-18 15:12:17');
 
 -- --------------------------------------------------------
 
@@ -64,7 +65,7 @@ CREATE TABLE `producer` (
 --
 
 INSERT INTO `producer` (`id`, `name`, `content`, `slug`, `create_time`) VALUES
-(2, 'Máy uống tóc2', '<p><em>aaaaaaaaaaaaaaaa</em></p>\r\n\r\n<p><strong>aaaaaaaaaaaaaaaa</strong></p>\r\n\r\n<p>aaaaaaaaaaaaaaaa</p>\r\n\r\n<p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>\r\n\r\n<p>aaaaaaaaaaaaaaaa</p>\r\n\r\n<p>aaaaaaaaaaaaaaaa</p>\r\n\r\n<p>aaaaaaaaaaaaaaaav</p>\r\n\r\n<p>&nbsp;</p>\r\n', 'may-uong-toc2', '2019-10-02 13:44:27');
+(0, 'Không xác định', NULL, 'khong-xac-dinh', '2019-10-18 15:05:44');
 
 -- --------------------------------------------------------
 
@@ -93,8 +94,9 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `catalog_id`, `content`, `price`, `discount`, `view`, `producer_id`, `title`, `image`, `imageList`, `slug`, `create_time`) VALUES
-(1, 'Máy uống tóc3', 4, '<p>aaaaaaaaaaaaaa</p>\r\n', 100, 10, 0, 2, 'Test gửi email', '0', '[\"imagetest5.jpg\"]', '', '2019-10-02 16:08:57'),
-(2, 'Máy uống tóc3', 4, '<p>aaaaaaaaaaaaaa</p>\r\n', 100, 10, 0, 2, 'Test gửi email', '', '[\"imagetest7.jpg\"]', '', '2019-10-02 16:09:49');
+(3, ' MÁY LÀM TÓC CHỈ TỪ #150k CHO SALON', 0, '<p>M&aacute;y L&agrave; Thẳng Bản Sứ Tokyo&nbsp;❤️&nbsp;Bản 5cm<br />\r\nGi&aacute; : 330k<br />\r\n- M&aacute;y l&agrave; bản sứ ceramic mượt , b&oacute;ng, bảo vệ t&oacute;c<br />\r\n- Mặt c&oacute; c&aacute;c lỗ để tho&aacute;t nhiệt<br />\r\n- Bảng hiện điện tử nhiệt l&ecirc;n đến 230 độ<br />\r\nBảo h&agrave;nh 1 đổi 1 trong 30 ng&agrave;y</p>\r\n', 150, 0, 0, 0, ' MÁY LÀM TÓC CHỈ TỪ #150k CHO SALON', 'maylamtoc150k32.jpg', '[\"maylamtoc150k.jpg\",\"maylamtoc150k22.jpg\",\"maylamtoc150k34.jpg\"]', 'may-lam-toc-chi-tu-150k-cho-salon', '2019-10-18 15:18:43'),
+(5, 'MÁY LÀM TÓC CHỈ TỪ #150k CHO SALON', 0, '<p>imageL</p>\r\n', 111, 0, 0, 0, 'MÁY LÀM TÓC CHỈ TỪ #150k CHO SALON', 'maylamtoc150k33.jpg', '[\"maylamtoc150k.jpg\",\"maylamtoc150k22.jpg\",\"maylamtoc150k34.jpg\"]', 'may-lam-toc-chi-tu-150k-cho-salon', '2019-10-18 16:52:05'),
+(6, '', 0, '', 0, 0, 0, 0, '', 'noImage.jpg', '[]', '', '2019-10-18 17:35:13');
 
 -- --------------------------------------------------------
 
@@ -108,6 +110,34 @@ CREATE TABLE `shopany` (
   `data` text NOT NULL,
   `create_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `create_time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `password`, `create_time`) VALUES
+(1, 'aaaaaaaaaaaaaaaa', '1', '0000-00-00 00:00:00'),
+(2, 'aaaaaaaaaaaaaaaa', '1', '0000-00-00 00:00:00'),
+(3, 'aaaaaaaaaaaaaaaa', '1', '0000-00-00 00:00:00'),
+(4, 'aaaaaaaaaaaaaaaa', '1', '0000-00-00 00:00:00'),
+(5, 'aaaaaaaaaaaaaaaa', '1', '0000-00-00 00:00:00'),
+(6, 'aaaaaaaaaaaaaaaa', '1', '0000-00-00 00:00:00'),
+(7, 'aaaaaaaaaaaaaaaa', '1', '2019-10-17 16:41:57'),
+(8, 'aaaaaaaaaaaaaaaa', '1', '2019-10-17 17:13:06'),
+(9, 'aaaaaaaaaaaaaaaa', '1', '2019-10-17 17:14:19');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -138,6 +168,12 @@ ALTER TABLE `shopany`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -145,25 +181,31 @@ ALTER TABLE `shopany`
 -- AUTO_INCREMENT cho bảng `catalog`
 --
 ALTER TABLE `catalog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `producer`
 --
 ALTER TABLE `producer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `shopany`
 --
 ALTER TABLE `shopany`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
