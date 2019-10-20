@@ -20,10 +20,20 @@ class Api extends REST_Controller
     }
 
     public function index_get(){
-
+        $data = $this->get("data");
+        $data_json = json_decode($data);
+        $cmd = $data_json->cmd;
+        $app_controller = new App();
+        $res = $this;
+        switch ($cmd){
+            case cmd::GET_LIST_PRODUCT : return $app_controller->get_list_product($data_json, $res);
+            default: break;
+        }
+        
     }
 
     public function index_post(){
+        // $this->post = $_REQUEST;
         $data = $this->post("data");
         $data_json = json_decode($data);
         $cmd = $data_json->cmd;

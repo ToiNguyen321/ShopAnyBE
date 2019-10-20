@@ -83,7 +83,8 @@ class App{
             array('producer c', 'c.id = product.producer_id'),
         );
         $products = $res->Product_model->get_list($input, $feild);
-
+        // echo json_encode($products);
+        // exit();
         $this->api_response_success($products, $res);
     }
 }
