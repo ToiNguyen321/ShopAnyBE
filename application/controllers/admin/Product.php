@@ -33,18 +33,18 @@ class Product extends MY_Controller {
 		if($this->input->post()){
 			$path = './public/image/product/';
 			$path_thum = './public/image/product/thump/';
-			$image = $this->upload_library->upload($path, 'image');
+			$image = $this->upload_library->upload($path_thum, $path, 'image');
 			if($image == false){
 				$input['image'] = 'noImage.jpg';
 			}else{
 				$input['image'] = $image['file_name'];
-				$this->upload_library->resize($path_thum, $path, $image['file_name']);
+				// $this->upload_library->resize($path_thum, $path, $image['file_name']);
 			}
 			
-			$imageList = $this->upload_library->upload_file($path, 'imageList');
-			foreach ($imageList as $imageL) {
-				$this->upload_library->resize($path_thum, $path, $imageL);
-			}
+			$imageList = $this->upload_library->upload_file($path_thum ,$path, 'imageList');
+			// foreach ($imageList as $imageL) {
+			// 	$this->upload_library->resize($path_thum, $path, $imageL);
+			// }
 			$input['imageList'] = json_encode($imageList);
 			$input['name'] = $this->input->post('name');
 			$input['title'] = $this->input->post('title');
@@ -93,32 +93,34 @@ class Product extends MY_Controller {
 			$path = './public/image/product/';
 			$path_thum = './public/image/product/thump/';
 
-			$image = $this->upload_library->upload($path, 'image');
+			$image = $this->upload_library->upload($path_thum, $path, 'image');
 			
 			if($image != false){
-				$input['image'] = $image['file_name'];
-				$this->upload_library->resize($path_thum, $path, $image['file_name']);
+				
+				// $this->upload_library->resize($path_thum, $path, $image['file_name']);
 				if(file_exists($path . $product->image)){
 					unlink($path . $product->image);
 				}
 				if(file_exists($path_thum . "thump_" . $product->image)){
 					unlink($path_thum . "thump_" . $product->image);
 				}
+				$input['image'] = $image['file_name'];
 			}
 			
 			$imageList = $this->upload_library->upload_file($path_thum, $path, 'imageList');
 			if(count($imageList) > 0){
 				// $this->upload_library->resize_array($path_thum, $path, $imageList);
-				for ($i = 0; $i < count($imageList) ; $i++){
-					if(file_exists($path . $imageList[$i])){
-						unlink($path . $imageList[$i]);
+				$imageList_unlink = json_decode($product->imageList);
+				for ($i = 0; $i < count($product->imageList_unlink) ; $i++){
+					if(file_exists($path . $imageList_unlink[$i])){
+						unlink($path . $imageList_unlink[$i]);
 					}
-					if(file_exists($path_thum . "thump_" . $imageList[$i])){
-						unlink($path_thum . "thump_" . $imageList[$i]);
+					if(file_exists($path_thum . "thump_" . $imageList_unlink[$i])){
+						unlink($path_thum . "thump_" . $imageList_unlink[$i]);
 					}	
 				}
 				
-				// $input['imageList'] = json_encode($imageList);
+				$input['imageList'] = json_encode($imageList);
 			}
 			
 			$input['name'] = $this->input->post('name');
@@ -141,11 +143,11 @@ class Product extends MY_Controller {
 
 		$array['where'] = array('parent_id' => 0);
 		$catalogs = $this->Catalog_model->get_list($array);
-		foreach ($catalogs as $key => $catalog) {
-			$array_tmp['where'] = array('parent_id' => $catalog->id);
-			$catalog_list = $this->Catalog_model->get_list($array_tmp);
-			$catalog->catalog_list = $catalog_list;
-		}
+		// foreach ($catalogs as $key => $catalog) {
+		// 	$array_tmp['where'] = array('parent_id' => $catalog->id);
+		// 	$catalog_list = $this->Catalog_model->get_list($array_tmp);
+		// 	$catalog->catalog_list = $catalog_list;
+		// }
 		$this->data['catalogs'] = $catalogs;
 		$this->data['producers'] = $this->Producer_model->get_list();
 

@@ -45,7 +45,7 @@
 	    			$image_list[] = $data['file_name'];
 	    			$this->resize($upload_thump, $upload_path, $data['file_name']);
 	    		}
-	    		sleep(2);
+	    		// sleep(2);
 	    	}
 	    	return $image_list;
 	    }
@@ -58,14 +58,6 @@
 	    	
 	    	return $config;
 	    }
-	  //   function resize_array($path_thum = '', $path_file = '', $array_file_name = array() ){
-	  //   	$data = [];
-	  //   	for ($i = 0; $i < count($array_file_name); $i++){
-			// 	$data[] = $this->resize($path_thum, $path_file, $array_file_name[$i]);
-			// }
-			// pre($data);
-			// return true;
-	  //   }
 	    function resize($path_thump = '', $path_file = '', $file_name = '' )
 	    {
 	    	$source_path = $path_file;

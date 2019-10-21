@@ -42,16 +42,16 @@
 						<label class="control-label col-md-2 col-sm-2 col-xs-12">Chọn danh mục</label>
 						<div class="col-md-3 col-sm-3 col-xs-12">
 							<select class="select2_group form-control" name="catalog_id">
-								<option <?php echo $product->catalog_id == 0 ? 'selected' : '' ?> value="0">Không xác định</option>
+								<!-- <option <?php echo $product->catalog_id == 0 ? 'selected' : '' ?> value="0">Không xác định</option> -->
 								<?php foreach ($catalogs as $catalog): ?>
-									<optgroup label="<?php echo $catalog->name ?>">
-										<?php foreach ($catalog->catalog_list as $val): ?>
+									<!-- <optgroup label="<?php //echo $catalog->name ?>">
+										<?php //foreach ($catalog->catalog_list as $val): ?> -->
 
-											<option <?php echo $product->catalog_id == $val->id ? 'selected' : '' ?> value="<?php echo $val->id ?>"> - <?php echo $val->name ?></option>
+											<option <?php echo $product->catalog_id == $catalog->id ? 'selected' : '' ?> value="<?php echo $catalog->id ?>"> - <?php echo $catalog->name ?></option>
 
-										<?php endforeach ?>
+										<!-- <?php //endforeach ?>
 										
-									</optgroup>
+									</optgroup> -->
 								<?php endforeach ?>
 							</select>
 						</div>

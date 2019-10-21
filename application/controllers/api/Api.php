@@ -7,8 +7,8 @@ include('App.php');
 class cmd {
     const LOGIN = 1;
     const REGISTER = 2;
+    const GET_LIST_CATALOG = 4;
     const GET_LIST_PRODUCT = 3;
-
     const GET_INFO_ACCOUNT = 100;
 }
 

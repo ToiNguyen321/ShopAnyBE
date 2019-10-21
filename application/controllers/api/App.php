@@ -76,15 +76,31 @@ class App{
     //get list danh muc khong can token
     //$res = $this
     public function get_list_product($data, $res){
+        $res->load->model('Catalog_model');
         $res->load->model('Product_model');
-        $feild = 'product.id, product.name, product.price, product.title, product.discount, product.content, product.image, product.imageList, product.view, product.create_time, b.name catalog, c.name producer';
-        $input['join'] = array(
-            array('catalog b', 'b.id = product.catalog_id'),
-            array('producer c', 'c.id = product.producer_id'),
-        );
-        $products = $res->Product_model->get_list($input, $feild);
-        // echo json_encode($products);
-        // exit();
-        $this->api_response_success($products, $res);
+
+        $page = isset($data->page) ? $data->page : 1;
+        $limit = 10;
+        $catalog_input = array();
+        if(isset($data->idCatalog)){
+            $catalog_input['where'] = array('id' => $data->idCatalog);
+        }
+        $data_catalog = $res->Catalog_model->get_list($catalog_input);
+
+        foreach ($data_catalog as $catalog) {
+            $feild = 'product.id, product.name, product.price, product.title, product.discount, product.content, product.image, product.imageList, product.view, product.create_time, b.name catalog, c.name producer';
+            $input['limit'] = array($limit , ($page - 1) * $limit);
+            $input['where'] = array("product.catalog_id" => $catalog->id);
+            $input['join'] = array(
+                array('catalog b', 'b.id = product.catalog_id'),
+                array('producer c', 'c.id = product.producer_id'),
+            );
+            $products = $res->Product_model->get_list($input, $feild);
+            // if(count($products) > 0){
+                $catalog->products = $products;
+            // }
+        }
+        
+        $this->api_response_success($data_catalog, $res);
     }
 }
