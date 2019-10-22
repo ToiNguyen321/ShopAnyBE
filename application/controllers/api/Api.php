@@ -7,8 +7,11 @@ include('App.php');
 class cmd {
     const LOGIN = 1;
     const REGISTER = 2;
-    const GET_LIST_CATALOG = 4;
     const GET_LIST_PRODUCT = 3;
+    const GET_LIST_CATALOG = 4;
+    const GET_PRODUCT_DETAIL = 5;
+
+
     const GET_INFO_ACCOUNT = 100;
 }
 
@@ -27,6 +30,7 @@ class Api extends REST_Controller
         $res = $this;
         switch ($cmd){
             case cmd::GET_LIST_PRODUCT : return $app_controller->get_list_product($data_json, $res);
+            case cmd::GET_PRODUCT_DETAIL : return $app_controller->get_product($data_json, $res);
             default: break;
         }
         

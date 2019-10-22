@@ -42,6 +42,15 @@
                           </select>
                         </div>
                      </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Chọn trạng thái</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" name="is_show">
+                            <option <?php  echo $catalog->is_show == 0 ? 'selected' : '' ?> value="0">Ẩn</option>
+                            <option <?php  echo $catalog->is_show == 1 ? 'selected' : '' ?> value="1">Hiện</option>
+                          </select>
+                        </div>
+                     </div>
 					<div class="form-group">
 						<label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Thứ tự sắp xếp</label>
 						<div class="col-md-6 col-sm-6 col-xs-12">

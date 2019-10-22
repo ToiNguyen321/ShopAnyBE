@@ -274,13 +274,13 @@ class MY_Model extends CI_Model
         if ((isset($input['where'])) && $input['where']) {
             $this->db->where($input['where']);
         }
-
+        //$input['where_in'][1] = array('Frank', 'Todd', 'James');
         if (isset($input['where_in'][0]) && isset($input['where_in'][1])) {
             $this->db->where_in($input['where_in'][0], $input['where_in'][1]);
         }
 
         //tim kiem like
-        // $input['like'] = array('name' => 'abc');
+        // $input['like'] = array('name', 'abc');
         if ((isset($input['like'])) && $input['like']) {
             $this->db->like($input['like'][0], $input['like'][1]);
         }

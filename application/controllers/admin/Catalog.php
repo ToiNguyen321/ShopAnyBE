@@ -37,11 +37,13 @@ class Catalog extends MY_Controller {
 			$name = $this->input->post('name');
 			$sort_order = $this->input->post('sort_order');
 			$parent_id = $this->input->post('parent_id');
+			$is_show = $this->input->post('is_show');
 			$data_add = array(
 				'name' => $name,
 				'parent_id' => $parent_id,
 				'sort_order' => $sort_order,
 				'slug' => $this->slug($name),
+				'is_show' => $is_show,
 				'create_time' => $this->get_date()
 			);
 
@@ -70,11 +72,13 @@ class Catalog extends MY_Controller {
 			$name = $this->input->post('name');
 			$sort_order = $this->input->post('sort_order');
 			$parent_id = $this->input->post('parent_id');
+			$is_show = $this->input->post('is_show');
 			$data = array(
 				'name' => $name,
 				'parent_id' => $parent_id,
 				'sort_order' => $sort_order,
 				'slug' => $this->slug($name),
+				'is_show' => $is_show,
 			);
 
 			if($this->Catalog_model->update($id,$data)){

@@ -29,6 +29,7 @@
 								<th>Tên danh mục</th>
 								<th>Danh mục cha</th>
 								<th>Thứ tự</th>
+								<th>Trạng thái</th>
 								<th>Ngày tạo</th>
 								<th>Thao tác</th>
 							</tr>
@@ -42,6 +43,7 @@
 									<td><?php echo $val->name ?></td>
 									<td><?php echo $val->loai ?></td>
 									<td><?php echo $val->sort_order ?></td>
+									<td><?php echo $val->is_show == 0 ? "Ẩn" : "Hiện" ?></td>
 									<td><?php echo $val->create_time ?></td>
 									<td>
 			                            <a href="<?php echo admin_url('catalog/edit/') . $val->id ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>

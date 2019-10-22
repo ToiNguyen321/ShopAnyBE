@@ -82,25 +82,53 @@ class App{
         $page = isset($data->page) ? $data->page : 1;
         $limit = 10;
         $catalog_input = array();
+        $catalog_input['where']['is_show'] = 1;
         if(isset($data->idCatalog)){
-            $catalog_input['where'] = array('id' => $data->idCatalog);
+            $catalog_input['where']['id'] = $data->idCatalog;
         }
         $data_catalog = $res->Catalog_model->get_list($catalog_input);
 
         foreach ($data_catalog as $catalog) {
-            $feild = 'product.id, product.name, product.price, product.title, product.discount, product.content, product.image, product.imageList, product.view, product.create_time, b.name catalog, c.name producer';
+            $feild = 'product.id, product.name, product.price, product.title, product.discount, product.content, product.image, product.imageList, product.view, product.rate,  product.create_time, b.name catalog, c.name producer';
             $input['limit'] = array($limit , ($page - 1) * $limit);
-            $input['where'] = array("product.catalog_id" => $catalog->id);
+            $input['where'] = array(
+                "product.catalog_id" => $catalog->id,
+                "b.is_show" => 1
+            );
+            if(isset($data->nameSearch)){
+                $input['like'] = array("product.name", trim($data->nameSearch));
+            }
             $input['join'] = array(
                 array('catalog b', 'b.id = product.catalog_id'),
                 array('producer c', 'c.id = product.producer_id'),
             );
             $products = $res->Product_model->get_list($input, $feild);
-            // if(count($products) > 0){
-                $catalog->products = $products;
-            // }
+            $catalog->products = $products;
         }
         
         $this->api_response_success($data_catalog, $res);
+    }
+    public function get_product($data, $res){
+        $res->load->model('Product_model');
+        $feild = 'product.id, product.name, product.price, product.title, product.discount, product.content, product.image, product.imageList, product.view, product.create_time, product.rate, b.name catalog, c.name producer';
+        if(isset($data->idProduct) && is_numeric($data->idProduct)){
+            $input['where'] = array("product.id" => $data->idProduct);
+        }else if(isset($data->idProduct) && is_array($data->idProduct)){
+            $input['where_in'] = array("product.id", $data->idProduct);
+        }else if(isset($data->nameSearch)){
+            $input['like'] = array("product.name", trim($data->nameSearch));
+            $page = isset($data->page) ? $data->page : 1;
+            $limit = 10;
+            $input['limit'] = array($limit , ($page - 1) * $limit);
+        }else{
+            $input['order'] = array('product.create_time','DESC');
+        }
+        
+        $input['join'] = array(
+            array('catalog b', 'b.id = product.catalog_id'),
+            array('producer c', 'c.id = product.producer_id'),
+        );
+        $products = $res->Product_model->get_list($input, $feild);
+        $this->api_response_success($products, $res);
     }
 }
