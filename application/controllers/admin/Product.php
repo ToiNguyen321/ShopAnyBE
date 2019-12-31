@@ -68,12 +68,6 @@ class Product extends MY_Controller {
 
 		$array['where'] = array('parent_id' => 0);
 		$catalogs = $this->Catalog_model->get_list($array);
-		// foreach ($catalogs as $key => $catalog) {
-		// 	$array_tmp['where'] = array('parent_id' => $catalog->id);
-		// 	$catalog_list = $this->Catalog_model->get_list($array_tmp);
-		// 	$catalog->catalog_list = $catalog_list;
-		// }
-		// pre($catalogs);
 		$this->data['catalogs'] = $catalogs;
 		$this->data['producers'] = $this->Producer_model->get_list();
 		$this->data['title'] = 'Thêm mới sản phẩm';
